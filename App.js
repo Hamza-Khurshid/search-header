@@ -8,6 +8,7 @@ import Right from './source/components/Right';
 import Center from './source/components/Center';
 import CircleTransition from './source/home/CirlceExpand';
 import MyRipple from './source/components/MyRipple';
+import Search from './source/search'
 
 class App extends React.Component {
   constructor(props, context) {
@@ -184,7 +185,8 @@ class App extends React.Component {
           </View>
         </View> */}
         {/* <CircleTransition /> */}
-        <MyRipple />
+        {/* <MyRipple /> */}
+        <Search />
       </Root>
     );
   }
