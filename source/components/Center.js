@@ -48,7 +48,7 @@ export default class Center extends React.Component {
         const { title, onSearchTextChange, searchValue, isSearchActive } = this.props;
         const { opacityValue, textInput } = this.state;
 
-        const color = isSearchActive ? "grey" : 'white';
+        const color = isSearchActive ? "grey" : 'black';
 
         let content = <Text style={[styles.text, { color }]}>{title}</Text>;
 

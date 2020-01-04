@@ -22,7 +22,7 @@ class Right extends Component {
 
         return (
             <View>
-                <Icon {...iconProps} style={{ color: (isSearchActive && searchValue.length) > 0 ? "green" : "white" }} />
+                <Icon {...iconProps} style={{ color: (isSearchActive && searchValue.length) > 0 ? "green" : "black" }} />
             </View>
         )
     }

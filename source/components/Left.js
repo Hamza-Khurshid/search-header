@@ -7,7 +7,7 @@ class Left extends Component {
         super(props, context);
 
         this.state = {
-            leftElement: 'menu',
+            leftElement: 'chevron-left',
             spinValue: new Animated.Value(0),
         };
     }
@@ -19,7 +19,7 @@ class Left extends Component {
         }
         // goes to default look
         if (!nextProps.isSearchActive && this.props.isSearchActive) {
-            this.animate({ toValue: 0, leftElement: 'menu' });
+            this.animate({ toValue: 0, leftElement: 'chevron-left' });
         }
     }
 
@@ -52,7 +52,7 @@ class Left extends Component {
 
         return (
             <Animated.View style={[{ transform: [{ rotate: spin }] }]} >
-                <Icon type="Entypo" name={leftElement} style={{ color : isSearchActive ? 'grey' : 'white' }} onPress={onSearchClose} />
+                <Icon type="Entypo" name={leftElement} style={{ color : isSearchActive ? 'grey' : 'black' }} onPress={onSearchClose} />
             </Animated.View>
         )
     }
