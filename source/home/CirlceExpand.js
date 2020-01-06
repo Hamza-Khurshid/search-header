@@ -9,6 +9,9 @@ import React, {
     View,
     TouchableWithoutFeedback
   } from 'react-native'
+  import Left from '../components/Left';
+  import Right from '../components/Right';
+  import Center from '../components/Center';
    
   import CircleTransition from '../components/ExpandCircle'
   const ANIMATION_DURATION = 1000
@@ -87,6 +90,16 @@ import React, {
         customTopMargin,
         customLeftMargin
       } = this.state
+      let {
+        isSearchActive,
+        onSearchClosed,
+        title,
+        searchValue,
+        onSearchTextChanged,
+        onSearchPressed,
+        onSearchClearPressed
+      } = this.props;
+
       return (
         <View style={[
           styles.container,
@@ -97,13 +110,24 @@ import React, {
               width:'100%',
               height:80
           }}>
-          <TouchableWithoutFeedback
-            style={styles.touchable}
-            onPress={this.handlePress}>
             <View style={styles.touchableView}>
-              <Text style={styles.text}>{viewBackgroundColor.toString()}</Text>
+              <Left
+                isSearchActive={isSearchActive}
+                onSearchClose={onSearchClosed}
+              />
+              <Center
+                title={title}
+                searchValue={searchValue}
+                isSearchActive={isSearchActive}
+                onSearchTextChange={onSearchTextChanged}
+              />
+              <Right
+                searchValue={searchValue}
+                isSearchActive={isSearchActive}
+                onSearchPress={onSearchPressed}
+                onSearchClear={onSearchClearPressed}
+              />
             </View>
-          </TouchableWithoutFeedback>
           <CircleTransition
             ref={(circle) => { this.circleTransition = circle }}
             color={circleColor}
@@ -137,8 +161,10 @@ import React, {
     },
     touchableView: {
       flex: 1,
+      paddingHorizontal: 8,
       alignItems: 'center',
-      justifyContent: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
     text: {
       fontSize: 45,

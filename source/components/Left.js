@@ -7,7 +7,7 @@ class Left extends Component {
         super(props, context);
 
         this.state = {
-            leftElement: 'menu',
+            leftElement: 'chevron-left',
             spinValue: new Animated.Value(0),
         };
     }
@@ -19,7 +19,7 @@ class Left extends Component {
         }
         // goes to default look
         if (!nextProps.isSearchActive && this.props.isSearchActive) {
-            this.animate({ toValue: 0, leftElement: 'menu' });
+            this.animate({ toValue: 0, leftElement: 'chevron-left' });
         }
     }
 

@@ -1,8 +1,9 @@
 import React from 'react';
 import {
-  Root, Header
+  Root, Header,
+  Text
 } from 'native-base';
-import { View, StyleSheet, Animated, Easing } from 'react-native';
+import { View, StatusBar, StyleSheet, Animated, Easing } from 'react-native';
 import Left from './source/components/Left';
 import Right from './source/components/Right';
 import Center from './source/components/Center';
@@ -29,26 +30,28 @@ class App extends React.Component {
     };
   }
 
+  getRef = (ref) => this.myRipple = ref
+
   onSearchOpenRequested = () => {
-    this.animateBackground(this.state.searchScaleValue, () => {
+    this.animateBackground(0.01, this.state.searchScaleValue, () => {
       // this is what we need to do when the animation is completed
-      this.state.defaultScaleValue.setValue(0.01);
+      this.state.defaultScaleValue.setValue(1);
       // move default background above the search background (higher zIndex)
-      this.setState({order: 'searchFirst'});
+      this.setState({ order: 'searchFirst' });
     });
   };
 
   onSearchCloseRequested = () => {
-    this.animateBackground(this.state.defaultScaleValue, () => {
+    this.animateBackground(1, this.state.defaultScaleValue, () => {
       // this is what we need to do when the animation is completed
       this.state.searchScaleValue.setValue(0.01);
       // move default bcakground under the search background (lower zIndex)
-      this.setState({order: 'defaultFirst'});
+      this.setState({ order: 'defaultFirst' });
     });
   };
 
   onLayout = event => {
-    const {width, height} = event.nativeEvent.layout;
+    const { width, height } = event.nativeEvent.layout;
 
     // pythagorean
     const radius = Math.sqrt(Math.pow(height, 2) + Math.pow(width, 2));
@@ -63,15 +66,15 @@ class App extends React.Component {
 
     this.setState({
       bgPosition,
-      // radius: diameter / 2,
-      // diameter,
+      radius: diameter / 2,
+      diameter,
     });
   };
 
-  animateBackground = (value, onComplete) => {
+  animateBackground = (v, value, onComplete) => {
     Animated.timing(value, {
       toValue: 1,
-      duration: 325,
+      duration: 2000,
       easing: Easing.bezier(0.0, 0.0, 0.2, 1),
       useNativeDriver: Platform.OS === 'android',
     }).start(onComplete);
@@ -86,7 +89,7 @@ class App extends React.Component {
       searchScaleValue,
       order,
     } = this.state;
-
+    console.log()
     const bgStyle = {
       position: 'absolute',
       top: -radius,
@@ -95,16 +98,26 @@ class App extends React.Component {
       borderRadius: radius,
     };
 
+
+    var searchA = searchScaleValue.interpolate({
+      inputRange: [0.01, 1],
+      outputRange: [0.01, 1]
+    })
+
+    var dscale = defaultScaleValue.interpolate({
+      inputRange: [0.01, 1],
+      outputRange: [1, 0.3]
+    })
     const bgSearch = (
       <Animated.View
         key="searchBackground"
         style={[
-          bgStyle,
           {
             left: bgPosition,
             backgroundColor: 'white',
-            transform: [{scale: searchScaleValue}],
+            transform: [{ scale: searchA }],
           },
+          bgStyle,
         ]}
       />
     );
@@ -113,12 +126,12 @@ class App extends React.Component {
       <Animated.View
         key="defaultBackground"
         style={[
-          bgStyle,
           {
             right: bgPosition,
             backgroundColor: 'green',
-            transform: [{scale: defaultScaleValue}],
+            transform: [{ scale: dscale }],
           },
+          bgStyle,
         ]}
       />
     );
@@ -135,11 +148,12 @@ class App extends React.Component {
   };
 
   onSearchPressed = () => {
-    this.setState({isSearchActive: true});
+    this.myRipple.start()
+    this.setState({ isSearchActive: true });
   };
 
   onSearchTextChanged = searchValue => {
-    this.setState({searchValue});
+    this.setState({ searchValue });
   };
 
   onSearchClearPressed = () => {
@@ -147,6 +161,10 @@ class App extends React.Component {
   };
 
   onSearchClosed = () => {
+    if(this.state.isSearchActive){
+
+      this.myRipple.start()
+    }
     this.setState({
       isSearchActive: false,
       searchValue: '',
@@ -154,24 +172,36 @@ class App extends React.Component {
   };
 
   render() {
-    const {isSearchActive, searchValue} = this.state;
+    const { isSearchActive, searchValue } = this.state;
 
     return (
-      <Root>
-        {/* <View
+        <View
           style={[
-            styles.container,
-            isSearchActive && {backgroundColor: 'white'},
+            styles.container
           ]}>
-          <View style={styles.statusBar} />
-          <View style={styles.toolbarContainer} onLayout={this.onLayout}>
-            {this.renderAnimatedBackgrounds(styles)}
+        <StatusBar backgroundColor='#008BAC' />
+        {/* <View style={styles.statusBar} /> */}
+        {/* 
+        </View> */}
+        {/* <CircleTransition
+          isSearchActive={isSearchActive}
+          onSearchClose={this.onSearchClosed}
+          title="Animation"
+          searchValue={searchValue}
+          onSearchTextChange={this.onSearchTextChanged}
+          onSearchPress={this.onSearchPressed}
+          onSearchClear={this.onSearchClearPressed}
+        /> */}
+        <MyRipple
+        ref={this.getRef}>
+          <View style={styles.toolbarContainer}>
+
             <Left
               isSearchActive={isSearchActive}
               onSearchClose={this.onSearchClosed}
             />
             <Center
-              title="Animation"
+              title="Sites"
               searchValue={searchValue}
               isSearchActive={isSearchActive}
               onSearchTextChange={this.onSearchTextChanged}
@@ -183,11 +213,14 @@ class App extends React.Component {
               onSearchClear={this.onSearchClearPressed}
             />
           </View>
-        </View> */}
-        {/* <CircleTransition /> */}
-        {/* <MyRipple /> */}
-        <Search />
-      </Root>
+        </MyRipple>
+        <Text style={{
+          fontSize:30,
+          color:'#333333',
+          textAlign:'center',
+          paddingTop:20
+        }}>Zpe Search Demo</Text>
+        </View>
     );
   }
 };
@@ -201,24 +234,15 @@ const styles = StyleSheet.create({
   //   justifyContent: 'space-between',
   // },
   container: {
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 80,
-    elevation: 4,
-    position: 'absolute',
-    backgroundColor: 'green',
-  },
-  statusBar: {
-    height: 24,
-    backgroundColor: 'black'
+    flex:1
   },
   toolbarContainer: {
-    flex: 1,
-    height: 56,
-    marginHorizontal: 8,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent:'center',
+    height: 60,
+    width:'100%',
+    paddingHorizontal:15,
   },
 });
 

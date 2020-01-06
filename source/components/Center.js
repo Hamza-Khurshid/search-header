@@ -53,7 +53,7 @@ export default class Center extends React.Component {
         let content = <Text style={[styles.text, { color }]}>{title}</Text>;
 
         if (textInput) {
-            content = ( <TextInput placeholder="Search" /> );
+            content = ( <TextInput placeholder="Search by ID/Name" /> );
         }
 
         return (
