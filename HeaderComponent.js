@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Text, View, FlatList,TouchableOpacity, StatusBar, StyleSheet, Animated, Easing } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, StatusBar, StyleSheet, Animated, Easing } from 'react-native';
 import Left from './source/components/Left';
 import Right from './source/components/Right';
 import Center from './source/components/Center';
@@ -21,26 +21,26 @@ class HeaderComponent extends React.Component {
       diameter: 0,
       // it'll change zIndex after the animation is complete
       order: 'defaultFirst',
-      filterData:[]
+      filterData: []
     };
   }
 
 
   searchData = (search) => {
     if (search != '') {
-        var proData = this.props.data
-        var filterData = proData.filter((item) => {
-            return item['title'].toLowerCase().match(search.toLowerCase())
-        })
-        console.log(filterData)
-        this.setState({ filterData:filterData })
+      var proData = this.props.data
+      var filterData = proData.filter((item) => {
+        return item['title'].toLowerCase().match(search.toLowerCase())
+      })
+      console.log(filterData)
+      this.setState({ filterData: filterData })
     }
     else {
-        this.setState({ filterData: this.props.data })
+      this.setState({ filterData: this.props.data })
     }
 
 
-}
+  }
 
   getRef = (ref) => this.myRipple = ref
 
@@ -62,7 +62,7 @@ class HeaderComponent extends React.Component {
     });
   };
 
-  
+
 
   onSearchPressed = () => {
     this.myRipple.start()
@@ -89,91 +89,99 @@ class HeaderComponent extends React.Component {
     });
   };
 
-  
+
 
   render() {
-    const { isSearchActive, searchValue,filterData } = this.state;
-    const {onPress} = this.props
-    const isSuggest = isSearchActive && searchValue != ''?true:false
+    const { isSearchActive, searchValue, filterData } = this.state;
+    const { onPress } = this.props
+    const isSuggest = isSearchActive && searchValue != '' ? true : false
     return (
       <View
-          style={isSuggest?{
-            height:'100%'
-          }:null}>
-          <View
-            style={{
-              width: '100%',
-              height: 60,
-            }}>
-            <MyRipple ref={this.getRef}>
-              <View style={styles.toolbarContainer}>
-                <Left
-                  isSearchActive={isSearchActive}
-                  onSearchClose={this.onSearchClosed}
-                />
-                <Center
-                  title="Sites"
-                  searchValue={searchValue}
-                  isSearchActive={isSearchActive}
-                  onSearchTextChange={this.onSearchTextChanged}
-                />
-                <Right
-                  searchValue={searchValue}
-                  isSearchActive={isSearchActive}
-                  onSearchPress={this.onSearchPressed}
-                  onSearchClear={this.onSearchClearPressed}
-                />
-              </View>
-            </MyRipple>
-          </View>
-
-          <View
-            style={{
-              position: 'absolute',
-              width: '100%',
-              top: 60,
-              height:'100%',
-              paddingBottom:60
-            }}>
-            {isSuggest ? (
-              <FlatList
-                keyboardShouldPersistTaps="always"
-                data={filterData}
-                extraData={filterData.length}
-                renderItem={({item}) => {
-                  return (
-                    <TouchableOpacity
-                      style={styles.suggestionElementView}
-                      onPress={() => onPress(item)}>
-                      <Text
-                        style={[
-                          styles.suggestionItem,
-                        ]}
-                        numberOfLines={1}>
-                        {item.title}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                }}
+        style={isSuggest && filterData.length != 0 ? {
+          height: '100%',
+          backgroundColor: 'transparent',
+          
+        } : null}>
+        <View
+          style={{
+            width: '100%',
+            height: 60,
+          }}>
+          <MyRipple ref={this.getRef}>
+            <View style={styles.toolbarContainer}>
+              <Left
+                isSearchActive={isSearchActive}
+                onSearchClose={this.onSearchClosed}
               />
-            ) : null}
-          </View>
+              <Center
+                title="Sites"
+                searchValue={searchValue}
+                isSearchActive={isSearchActive}
+                onSearchTextChange={this.onSearchTextChanged}
+              />
+              <Right
+                searchValue={searchValue}
+                isSearchActive={isSearchActive}
+                onSearchPress={this.onSearchPressed}
+                onSearchClear={this.onSearchClearPressed}
+              />
+            </View>
+          </MyRipple>
         </View>
+
+        {isSuggest && filterData.length != 0 ? (
+        <View
+          style={{
+            position: 'absolute',
+            width: '100%',
+            top: 60,
+            height: '100%',
+            paddingBottom: 60,
+            backgroundColor:'transparent'
+          }}>
+
+
+          
+            <FlatList
+              keyboardShouldPersistTaps="always"
+              data={filterData}
+
+              extraData={filterData.length}
+              renderItem={({ item }) => {
+                return (
+                  <TouchableOpacity
+                    style={styles.suggestionElementView}
+                    onPress={() => onPress(item)}>
+                    <Text
+                      style={[
+                        styles.suggestionItem,
+                      ]}
+                      numberOfLines={1}>
+                      {item.title}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          
+          </View>
+          ) : null}
+        </View >
     );
   }
 };
 
 const styles = StyleSheet.create({
-  suggestionElementView:{
+  suggestionElementView: {
     backgroundColor: 'white',
     paddingLeft: 7,
     paddingRight: 7,
     paddingTop: 14,
     paddingBottom: 14,
     width: "100%",
-    borderBottomWidth:2,
-    borderBottomColor:'#3333'
-},
+    borderBottomWidth: 2,
+    borderBottomColor: '#3333'
+  },
   itemText: {
     fontSize: 20
   },
