@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
 // import { NativeModulesCall } from '../../services/helperFunctions';
 import { Toast } from 'native-base';
-import Modal from "react-native-modal";
+// import Modal from "react-native-modal";
 
 class AutoComplete extends Component{
     constructor(props) {
