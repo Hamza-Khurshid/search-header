@@ -90,16 +90,7 @@ class AutocompleteExample extends Component {
         }
         }
         />
-        <View style={styles.descriptionContainer}>
-          {films.length > 0 ? (
-            AutocompleteExample.renderFilm(films[0])
-          ) : (
-            query !== "" &&
-                <Text style={styles.infoText}>
-                    No item found
-                </Text>
-          )}
-        </View>
+        <View style={styles.descriptionContainer}/>
       </View>
     );
   }
@@ -127,8 +118,8 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     // `backgroundColor` needs to be set otherwise the
     // autocomplete input will disappear on text input.
-    backgroundColor: '#F5FCFF',
-    marginTop: 25
+    backgroundColor: 'transparent',
+    height:600
   },
   infoText: {
     textAlign: 'center'

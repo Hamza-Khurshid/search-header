@@ -13,8 +13,8 @@ class Right extends Component {
         const iconProps = {};
 
         if (isSearchActive && searchValue.length > 0) {
-            iconProps.name = 'clear';
-            iconProps.onPress = onSearchClear;
+            // iconProps.name = 'clear';
+            // iconProps.onPress = onSearchClear;
         } else {
             iconProps.name = 'search';
             iconProps.onPress = onSearchPress;

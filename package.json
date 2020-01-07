@@ -10,12 +10,14 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "lodash": "^4.17.15",
     "native-base": "^2.13.8",
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-autocomplete-input": "^4.1.0",
     "react-native-expanding-circle-transition": "^1.2.4",
-    "react-native-material-ripple": "^0.9.1"
+    "react-native-material-ripple": "^0.9.1",
+    "react-native-modal": "^11.5.3"
   },
   "devDependencies": {
     "@babel/core": "7.7.7",

@@ -7,6 +7,8 @@ import {
     TextInput,
     StyleSheet
 } from 'react-native';
+import Search from '../search';
+import NewComp from '../search/NewComp'
 
 export default class Center extends React.Component {
     constructor(props, context) {
@@ -53,7 +55,13 @@ export default class Center extends React.Component {
         let content = <Text style={[styles.text, { color }]}>{title}</Text>;
 
         if (textInput) {
-            content = ( <TextInput placeholder="Search by ID/Name" /> );
+            content = ( 
+            <TextInput 
+            onChangeText={onSearchTextChange}
+            placeholder="Search by ID/Name" /> 
+            // <Search />
+            
+            );
         }
 
         return (
